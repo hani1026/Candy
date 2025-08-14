@@ -1,0 +1,47 @@
+############  muon_run_after_vis.mac  ############
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
+
+#--- geometry 뷰 속성만 손대고, /vis/open 은 **안** 한다!
+/vis/geometry/set/visibility logical_world 0 false
+/vis/geometry/set/colour     logical_LS    0 0 1 0.05
+/vis/geometry/set/forceSolid logical_Plate 1
+
+#/vis/scene/reset
+/vis/scene/add/volume
+/vis/drawVolume
+/vis/viewer/set/style surface
+/vis/viewer/set/hiddenEdge true
+/vis/viewer/set/viewpointThetaPhi 120 150
+/vis/scene/add/axes
+
+/tracking/storeTrajectory 1
+/vis/scene/endOfEventAction accumulate
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set opticalphoton green
+/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
+/vis/modeling/trajectories/drawByParticleID-0/default/setStepPtsSize 1
+
+#/vis/filtering/trajectories/create/attributeFilter keepFirstN
+#/vis/filtering/trajectories/attributeFilter-0/setAttribute ID   # Track ID
+#/vis/filtering/trajectories/attributeFilter-0/addInterval 1 100 # 1 – 300번만
+
+#/vis/scene/add/hits
+
+# μ- 빔
+/gps/particle mu-
+/gps/energy 1 keV
+/gps/pos/type Plane
+/gps/pos/shape Rectangle
+/gps/pos/halfx 0 cm
+/gps/pos/halfy 0 cm
+/gps/pos/centre 0 0 10 cm
+/gps/direction 0 0 -1
+
+/run/beamOn 1
+
+/vis/viewer/flush
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
+##################################################

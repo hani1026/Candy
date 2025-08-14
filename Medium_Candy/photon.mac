@@ -1,0 +1,39 @@
+############  photon_2_iso.mac  ############
+# ── 화면·지오메트리 부분은 이전 매크로와 동일 ──
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
+
+/vis/geometry/set/visibility logical_world 0 false
+/vis/geometry/set/colour     logical_LS    0 0 1 0.05
+/vis/geometry/set/forceSolid logical_Plate 1
+
+/vis/scene/add/volume
+/vis/drawVolume
+/vis/viewer/set/style surface
+/vis/viewer/set/hiddenEdge true
+/vis/viewer/set/viewpointThetaPhi 120 150
+/vis/scene/add/axes
+
+/tracking/storeTrajectory 1
+/vis/scene/endOfEventAction accumulate
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set opticalphoton green
+/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
+/vis/modeling/trajectories/drawByParticleID-0/default/setStepPtsSize 1
+
+# ───────────────────────────────────────────────
+#           ★ 2 개의 optical photon 발사 ★
+# ───────────────────────────────────────────────
+/gps/particle opticalphoton         # 입자 종류
+/gps/energy   3.0 eV                # 파장 ≈ 413 nm (원하면 조정)
+/gps/pos/type Point                 # 점광원
+/gps/pos/centre 0 0 0 mm            # 검출기 중심
+/gps/ang/type iso                   # 4π 등방
+/gps/number 10                       # 한 이벤트에 2개 생성  :contentReference[oaicite:0]{index=0}
+
+/run/beamOn 1                       # 이벤트 1번이면 총 2광자
+/vis/viewer/flush
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
+###############################################

@@ -1,0 +1,55 @@
+#################################################################
+#  vis.mac ― Detector 시각화 설정 (Geant4 10.7.4)
+#################################################################
+
+#############################  뷰어 열기  ############################
+/vis/open OGL 600x600-0+0          # Qt 또는 X OpenGL 창
+
+###################  자동 리프레시·메시지 레벨 조정  ###################
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
+
+########################  겉껍데기(LV) 가림/투명도  #####################
+# World 박스 자체는 그리지 않음
+/vis/geometry/set/visibility logical_world 0 false
+
+# LS 큐브는 옅은 파란색(α=0.05) ― 내부가 비쳐 보이도록
+/vis/geometry/set/colour logical_LS 0 0 1 0.05
+
+##############################  지오메트리  #############################
+/vis/scene/create
+/vis/scene/add/volume           # 모든 LV 추가
+/vis/drawVolume                 # 실제 그리기
+
+############################  카메라/렌더 옵션  #########################
+/vis/viewer/set/viewpointThetaPhi 120 150
+/vis/viewer/set/style surface       # 면(솔리드) 모드
+/vis/viewer/set/hiddenEdge true     # 뒤쪽 모서리 숨김
+/vis/viewer/set/lineSegmentsPerCircle 100
+
+# Plate(25 소켓)만 확실히 면으로
+/vis/geometry/set/forceSolid logical_Plate 1
+
+############################  참고용 데코  ##############################
+/vis/scene/add/axes               # x=red, y=green, z=blue
+
+############################  화면 업데이트  ############################
+/vis/viewer/flush
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
+
+#################################################################
+# 필요 시 추가할 수 있는 명령
+#
+# LS까지 완전히 숨기고 싶으면:
+# /vis/geometry/set/visibility logical_LS 0 false
+#
+# 월드·LS 다 가린 뒤 아크릴 박스 외벽만 투명하게:
+# /vis/geometry/set/colour logical_Acrylic 0.1 0.7 1 0.1
+#
+# 실사형 정지화상(JPEG)이 필요하면:
+# /vis/open RayTracerX 1024x1024
+# /vis/scene/create
+# /vis/scene/add/volume
+# /vis/rayTracer/trace
+#################################################################

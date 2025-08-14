@@ -1,0 +1,17 @@
+# ─── 초기화 ───────────────────────────────────────────────────────────────────
+/run/initialize
+
+# ─── Primary (GPS) : 4 GeV μ⁻, 정중앙 상단 100 cm ───────────────────────────
+/gps/particle mu-
+/gps/energy 4 GeV
+
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 100 cm     # 월드 상단보다 충분히 안쪽
+/gps/pos/halfx 1 m             # World = 3 m, 절반 1.5 m
+/gps/pos/halfy 1 m
+
+/gps/direction 0 0 -1          # -Z (검출기 중심으로)
+
+/run/printProgress 100
+/run/beamOn 1000
